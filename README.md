@@ -5,9 +5,7 @@ npm run dev - abre el servidor en el puerto 3000
 
 ---------------------------------
 Se recomienda usar la extension ThunderClient en visualStudioCode para hacer peticiones a la API
-Se recomienda usar la extension MondoDB en visualStudioCode para administrar y visualizar la base de datos
-=======
-PARA INICIALIZAR EL SERVER:
-npm install
-npm run dev
 
+Se recomienda usar la extension MondoDB en visualStudioCode para administrar y visualizar la base de datos
+
+Se recomienda usar https://jwt.io/ para comparar los id guardados en la base de datos mediante el token de JWT
