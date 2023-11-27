@@ -68,3 +68,18 @@ export const logout = async (req, res) => {
     })
     return res.sendStatus(200);
 }
+
+export const crud = async (req, res) => {
+    const userFound = await User.findById(req.user.id); //req.user.id viene del middleware validateToken el cual tiene el id, que previamente fue decodificado
+
+    if (!userFound) {
+        return res.status(400).json({ message: "Usuario no encontrado" });
+    }
+    return res.json({
+        id: userFound._id,
+        username: userFound.username,
+        email: userFound.email,
+        createdAt: userFound.createdAt,
+        updatedAt: userFound.updatedAt,
+    }); 
+}
