@@ -1,7 +1,6 @@
 import mongoose from "mongoose";
 const uri = "mongodb+srv://MCGA:MCGA@cluster0.jspp4ck.mongodb.net/?retryWrites=true&w=majority";
 
-
 export const connectDB = async () => {
     try{
         await mongoose.connect(uri), {

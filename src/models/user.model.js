@@ -1,7 +1,5 @@
 import mongoose from "mongoose";
 
-
-
 const userSchema =  new mongoose.Schema({
     username: {
         type:String, //indica el tipo de dato
