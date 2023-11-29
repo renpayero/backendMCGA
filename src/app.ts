@@ -1,8 +1,8 @@
 import express from 'express';
 import morgan from 'morgan';
-import authRoutes from './routes/auth.routes.js';
+import authRoutes from './routes/auth.routes.ts';
 import cookieParser from "cookie-parser";
-import productsRoutes from "./routes/products.routes.js";
+import productsRoutes from "./routes/products.routes.ts";
 
 const app = express();
 
