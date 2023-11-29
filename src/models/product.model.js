@@ -12,18 +12,18 @@ const productSchema = new mongoose.Schema({
     },
     descripcion: {
         type: String,
-        // required: true,
+        required: true,
     },
     imagen: {
         type: String,
     },
     categoria: {
         type: String,
-        // required: true,
+        required: true,
     },
     stock: {
         type: Number,
-        // required: true,
+        required: true,
     },
 })
 
