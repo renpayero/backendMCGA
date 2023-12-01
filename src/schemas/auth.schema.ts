@@ -2,7 +2,9 @@ import {z} from 'zod'; //zod es una libreria que nos permite validar los datos q
 
 export const registerSchema = z.object({
     username: z.string({
-        required_error: 'El nombre de usuario en requerido'
+        required_error: 'El nombre de usuario es requerido'
+    }).min(3, {
+        message: 'El nombre de usuario debe tener al menos 3 caracteres'
     }),
     email: z.string({
         required_error: 'El email es requerido'

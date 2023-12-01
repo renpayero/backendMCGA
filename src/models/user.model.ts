@@ -1,4 +1,5 @@
 import mongoose from "mongoose";
+import { user } from "../types/index.ts";
 
 const userSchema =  new mongoose.Schema({
     username: {
@@ -22,4 +23,4 @@ const userSchema =  new mongoose.Schema({
     timestamps: true, //indica que se guardará la fecha de creación y modificación de cada usuario
 })
 
-export default mongoose.model('User', userSchema);
+export default mongoose.model<user>('User', userSchema);

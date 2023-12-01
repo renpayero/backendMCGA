@@ -1,19 +1,23 @@
-import Product from '../models/product.model.js'
-import mongoose from 'mongoose';
+import { product } from 'types/index.ts';
+import Product from '../models/product.model.ts'
+import { Request, Response } from 'express';
 
-export const getProducts = async (req: Request, res: Response) => {
+export const getProducts = async (_req: Request, res: Response) => {
     try {
-        const products = await Product.find({});
-        res.status(200).json(products);
+        const products : product[] = await Product.find({});
+        return res.status(200).json(products);
     } catch (error) {
-        res.status(404).json({ message: error.message });
+        if (error instanceof Error) {
+            return res.status(404).json({ message: error.message });
+        }
+        return res.status(500).json({ message: "Error interno del servidor" });
     }
 }
 
-export const createProduct = async (req, res) => {
+export const createProduct = async (req:Request, res: Response) => {
     try {
-        const {nombre, precio, descripcion, imagen, categoria, stock} = req.body;
-        const newProduct = new Product({
+        const {nombre, precio, descripcion, imagen, categoria, stock} : product = req.body;
+        const newProduct : product = new Product({
             nombre,
             precio,
             descripcion,
@@ -21,42 +25,53 @@ export const createProduct = async (req, res) => {
             categoria,
             stock,
         });
-        const productSaved = await newProduct.save();
-        res.status(200).json(productSaved);
+        const productSaved : product = await newProduct.save();
+        return res.status(200).json(productSaved);
     }
      catch (error) {
-        res.status(409).json({ message: error.message });
-    }
-}
-
-export const getProduct = async (req, res) => {
-    try {
-        const product = await Product.findById(req.params.id);
-        if (!product) {
-            res.status(404).json({ message: "Producto no encontrado" });
+        if (error instanceof Error) {
+            return res.status(409).json({ message: error.message });
         }
-        res.status(200).json(product);
-    } catch (error) {
-        res.status(404).json({ message: error.message });
+        return res.status(500).json({ message: "Error interno del servidor" });
     }
 }
 
-export const deleteProduct = async (req, res) => {
+export const getProduct = async (req:Request, res: Response) => {
+    try {
+        const product : product | null = await Product.findById(req.params.id);
+        
+        // if (!product) {
+        //     return res.status(404).json({ message: "Producto no encontrado" });
+        // }
+        return res.status(200).json(product);
+    } catch (error) {
+        if (error instanceof Error) {
+            console.log(error)
+            return res.status(404).json({ message: error.message });
+        }
+        return res.status(500).json({ message: "Error interno del servidor" });
+    }
+}
+
+export const deleteProduct = async (req:Request, res: Response) => {
     try {
         //Buscamos el producto por id y lo eliminamos, guarda el producto eliminado en la variable product
-        const product = await Product.findByIdAndDelete(req.params.id);
+        const product  = await Product.findByIdAndDelete(req.params.id);
         //si la variable product esta vacia, es porque no encontro el producto, por lo tanto retorna error 404
         if (!product) {
-            res.status(404).json({ message: "Producto no encontrado" });
+            return res.status(404).json({ message: "Producto no encontrado" });
         }
         //si encontro el producto, retorna un mensaje de exito
-        res.status(200).json({ message: "Producto eliminado" });
+        return res.status(200).json({ message: "Producto eliminado" });
     } catch (error) {
-        res.status(404).json({ message: error.message });
+        if (error instanceof Error) {
+            return res.status(404).json({ message: error.message });
+        }
+        return res.status(500).json({ message: "Error interno del servidor" });
     }
 }
 
-export const updateProduct = async (req, res) => {
+export const updateProduct = async (req:Request, res: Response) => {
     try {
         const {nombre, precio, descripcion, imagen, categoria, stock} = req.body;
         const product = await Product.findById(req.params.id);
@@ -72,8 +87,11 @@ export const updateProduct = async (req, res) => {
             stock,
             //new: true es para que retorne el producto actualizado porque en el caso contrario se retorna el producto antes de actualizar
         }, {new: true}); 
-        res.status(200).json(updatedProduct);
+        return res.status(200).json(updatedProduct);
     } catch (error) {
-        res.status(404).json({ message: error.message });
+        if (error instanceof Error) {
+            return res.status(404).json({ message: error.message });
+        }
+        return res.status(500).json({ message: "Error interno del servidor" });
     }
 }
