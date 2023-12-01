@@ -1,6 +1,5 @@
-import app from './app.js';
-import { connectDB } from './db.js';
-
+import app from './app.ts';
+import { connectDB } from './db.ts';
 
 connectDB();
 app.listen(3000, () => {
