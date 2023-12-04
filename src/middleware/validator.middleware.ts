@@ -8,8 +8,8 @@ export const validateSchema = (schema: AnyZodObject) => (req: Request, res: Resp
         return next(); // si todo esta bien, continua con el siguiente middleware
     }catch(error){
         if (error instanceof ZodError) {
-            return res.status(400).json({ message: error.errors[0].message }); //Si hay un error, retorna el mensaje de error
+            return res.status(400).json([error.errors[0].message]); //Si hay un error, retorna el mensaje de error
         }
-        return res.status(500).json({ message: "Error interno del servidor" });
+        return res.status(500).json(["Error interno del servidor"]);
     }
 }

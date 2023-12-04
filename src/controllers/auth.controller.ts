@@ -8,6 +8,14 @@ export const register = async (req: Request, res: Response) => {
     const {email, password, username} = req.body;  // destructuring del body de la request
 
     try{
+        //Validacion por si ya existe el email al querer registrarse
+        console.log("nashei")
+        const userFound = await User.findOne({email});
+        console.log(userFound)
+        if (userFound) {
+            return res.status(400).json(["El email ya existe"]);
+        }
+
         const passwordHash : string = await bcrypt.hash(password, 10) as string; // encripta la contraseña,
 
         const newUser: user = new User({
