@@ -3,9 +3,12 @@ import morgan from 'morgan';
 import authRoutes from './routes/auth.routes.ts';
 import cookieParser from "cookie-parser";
 import productsRoutes from "./routes/products.routes.ts";
+import cors from "cors";
 
 const app: Application = express();
 
+
+app.use(cors());
 app.use(morgan('dev'));
 app.use(express.json());
 app.use(cookieParser());
