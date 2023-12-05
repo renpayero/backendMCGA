@@ -3,6 +3,8 @@ import bcrypt from "bcryptjs";
 import { createAccessToken } from "../libs/jwt.ts";
 import { Request, Response } from "express";
 import { user } from "../types/index.ts";
+import jwt from "jsonwebtoken";
+import { TOKEN_SECRET } from "../config.ts";
 
 export const register = async (req: Request, res: Response) => {
     const {email, password, username} = req.body;  // destructuring del body de la request
@@ -51,10 +53,11 @@ export const login = async(req: Request, res: Response) => {
     try{
 
         const userFound: user | null = await User.findOne({email}); //Buscamos el usuario por email en la base de datos
+
         if (!userFound) { //Si no se encuentra el usuario retornamos la respuesta esta
             return res.status(400).json({ message: "Usuario no encontrado" });
         } 
-            
+        
         const isMatch: boolean = await bcrypt.compare(password, userFound.password); //Compara la contraseña que viene del front con la de la base de datos
         if (!isMatch) { //Si no matchean las password retorna error
             return res.status(400).json({ message: "Credenciales incorrectas" });
@@ -100,4 +103,41 @@ export const crud = async (req: Request, res: Response) => {
         createdAt: userFound.createdAt,
         updatedAt: userFound.updatedAt,
     }); 
+}
+
+// Función para verificar un token
+export const verifyToken = async (req: Request, res: Response) => {
+    // Obtiene el token desde las cookies de la solicitud
+    const token = req.cookies;
+
+    // Si no hay token, responde con un código de estado 401 y un mensaje
+    if (!token) {
+        return res.status(401).json({ message: "No está autorizado" });
+    }
+
+    // Verifica la validez del token utilizando la clave secreta (TOKEN_SECRET)
+    jwt.verify(token, TOKEN_SECRET, async (err: any, payload: any) => {
+        // Si hay un error en la verificación, responde con un código de estado 403 y un mensaje
+        if (err) {
+            return res.status(403).json({ message: "Token inválido" });
+        }
+
+        // Si la verificación es exitosa, busca al usuario en la base de datos utilizando el ID del payload
+        const userFound = await User.findById(payload.id);
+
+        // Si no se encuentra al usuario, responde con un código de estado 401 y un mensaje
+        if (!userFound) {
+            return res.status(401).json({ message: "No está autorizado" });
+        }
+
+        // Si se encuentra el usuario, responde con los datos del usuario en formato JSON
+        return res.json({
+            id: userFound.id,
+            username: userFound.username,
+            email: userFound.email
+        });
+    });
+    //!REVISAR ESTO
+    // Si llega a este punto, responde con un código de estado 500 y un mensaje de error interno del servidor
+    return res.status(500).json({ message: "Error interno del servidor" });
 }
