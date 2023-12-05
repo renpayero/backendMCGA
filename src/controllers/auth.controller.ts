@@ -5,6 +5,9 @@ import { Request, Response } from "express";
 import { user } from "../types/index.ts";
 import jwt from "jsonwebtoken";
 import { TOKEN_SECRET } from "../config.ts";
+// import { any } from "zod";
+
+require('events').EventEmitter.defaultMaxListeners = 15;
 
 export const register = async (req: Request, res: Response) => {
     const {email, password, username} = req.body;  // destructuring del body de la request
@@ -106,38 +109,27 @@ export const crud = async (req: Request, res: Response) => {
 }
 
 // Función para verificar un token
-export const verifyToken = async (req: Request, res: Response) => {
-    // Obtiene el token desde las cookies de la solicitud
-    const token = req.cookies;
-
-    // Si no hay token, responde con un código de estado 401 y un mensaje
-    if (!token) {
-        return res.status(401).json({ message: "No está autorizado" });
+export const verifyToken = async (req: Request, res: Response) => { 
+    const { token } = req.cookies; 
+    if (!token) { // Si no hay token
+        return res.status(401).json({message: "No autorizado"})  // Retorna un false que en el frontend se interpreta como que no hay token y por lo tanto no hay usuario logueado
+    };
+  
+    jwt.verify(token, TOKEN_SECRET, async (error: jwt.VerifyErrors | null, user: any) => { // Verifica el token con el secret
+      if (error) { // Si hay un error en la verificación del token
+        return res.status(401).json({message: "No autorizado"}) // Si el token no es válido, retorna un 401 
     }
-
-    // Verifica la validez del token utilizando la clave secreta (TOKEN_SECRET)
-    jwt.verify(token, TOKEN_SECRET, async (err: any, payload: any) => {
-        // Si hay un error en la verificación, responde con un código de estado 403 y un mensaje
-        if (err) {
-            return res.status(403).json({ message: "Token inválido" });
-        }
-
-        // Si la verificación es exitosa, busca al usuario en la base de datos utilizando el ID del payload
-        const userFound = await User.findById(payload.id);
-
-        // Si no se encuentra al usuario, responde con un código de estado 401 y un mensaje
-        if (!userFound) {
-            return res.status(401).json({ message: "No está autorizado" });
-        }
-
-        // Si se encuentra el usuario, responde con los datos del usuario en formato JSON
-        return res.json({
-            id: userFound.id,
-            username: userFound.username,
-            email: userFound.email
-        });
+  
+      const userFound = await User.findById(user.id); // Busca el usuario en la base de datos por el id que viene en el token decodificado 
+      if (!userFound) { // Si no encuentra el usuario 
+        return res.status(401).json({message: "No autorizado"}); // Retorna un 401 que en el frontend se interpreta como que no hay usuario logueado ya que el token no es válido
+    }
+  
+      return res.json({ // Si el usuario es encontrado, retorna el usuario
+        id: userFound._id, 
+        username: userFound.username,
+        email: userFound.email,
+      });
     });
-    //!REVISAR ESTO
-    // Si llega a este punto, responde con un código de estado 500 y un mensaje de error interno del servidor
-    return res.status(500).json({ message: "Error interno del servidor" });
-}
+    return;
+  };
