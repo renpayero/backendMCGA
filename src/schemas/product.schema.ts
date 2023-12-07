@@ -20,5 +20,4 @@ export const createProductSchema = z.object({
     categoria: z.string({
         required_error: 'La categoria del producto es requerida'
     }),
-    imagen: z.string().optional(), //optional() indica que el campo es opcional
 })

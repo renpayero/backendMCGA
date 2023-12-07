@@ -22,5 +22,4 @@ export interface product extends Document {
   descripcion : string;
   categoria : string;
   stock : number;
-  imagen ?: string | null | undefined;
 }

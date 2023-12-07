@@ -16,12 +16,11 @@ export const getProducts = async (_req: Request, res: Response) => {
 
 export const createProduct = async (req:Request, res: Response) => {
     try {
-        const {nombre, precio, descripcion, imagen, categoria, stock} : product = req.body;
+        const {nombre, precio, descripcion, categoria, stock} : product = req.body;
         const newProduct : product = new Product({
             nombre,
             precio,
             descripcion,
-            imagen,
             categoria,
             stock,
         });
@@ -73,7 +72,7 @@ export const deleteProduct = async (req:Request, res: Response) => {
 
 export const updateProduct = async (req:Request, res: Response) => {
     try {
-        const {nombre, precio, descripcion, imagen, categoria, stock} = req.body;
+        const {nombre, precio, descripcion, categoria, stock} = req.body;
         const product = await Product.findById(req.params.id);
         if (!product) {
             res.status(404).json({ message: "Producto no encontrado" });
@@ -82,7 +81,6 @@ export const updateProduct = async (req:Request, res: Response) => {
             nombre,
             precio,
             descripcion,
-            imagen,
             categoria,
             stock,
             //new: true es para que retorne el producto actualizado porque en el caso contrario se retorna el producto antes de actualizar
