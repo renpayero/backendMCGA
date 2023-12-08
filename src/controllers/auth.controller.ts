@@ -85,14 +85,7 @@ export const login = async(req: Request, res: Response) => {
     }
 }
 
-export const logout = async (_req: Request, res: Response) => {
-    res.cookie("token", "", {
-        expires: new Date(0)
-    })
-    return res.sendStatus(200);
-}
-
-export const crud = async (req: Request, res: Response) => {
+export const crud = async (req: Request, res: Response) => { //esta funcion autentica que el usuario este logueado
     
     const userFound = await User.findById(req.id); //req.user.id viene del middleware validateToken el cual tiene el id, que previamente fue decodificado
 
