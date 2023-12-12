@@ -1,7 +1,16 @@
 import app from './app.ts';
 import { connectDB } from './db.ts';
+import './config.ts';
+import dotenv from 'dotenv';
+
+dotenv.config();
+
+
+const PORT : string = process.env.PORT || "3000";
+
+
 
 connectDB();
-app.listen(3000, () => {
-    console.log('Listening on port 3000');
-    });
+app.listen(PORT, () => {
+    console.log('Listening on port ' + PORT);
+});

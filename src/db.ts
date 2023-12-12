@@ -1,5 +1,7 @@
 import mongoose from "mongoose";
-const uri = "mongodb+srv://MCGA:MCGA@cluster0.jspp4ck.mongodb.net/?retryWrites=true&w=majority";
+import { config } from "dotenv";
+config();
+const uri : string = process.env.URL_CONNECT || "";
 
 export const connectDB = async () => {
     try{

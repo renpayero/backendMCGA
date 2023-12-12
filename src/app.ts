@@ -5,7 +5,9 @@ import cookieParser from "cookie-parser";
 import productsRoutes from "./routes/products.routes.ts";
 import cors from "cors";
 
+
 const app: Application = express();
+
 
 
 app.use(cors({
