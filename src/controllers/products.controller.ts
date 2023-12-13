@@ -39,13 +39,9 @@ export const getProduct = async (req:Request, res: Response) => {
     try {
         const product : product | null = await Product.findById(req.params.id);
         
-        // if (!product) {
-        //     return res.status(404).json({ message: "Producto no encontrado" });
-        // }
         return res.status(200).json(product);
     } catch (error) {
         if (error instanceof Error) {
-            console.log(error)
             return res.status(404).json({ message: error.message });
         }
         return res.status(500).json({ message: "Error interno del servidor" });

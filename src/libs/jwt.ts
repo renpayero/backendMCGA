@@ -1,6 +1,5 @@
 import { TOKEN_SECRET } from "../config.ts";
 import jwt from "jsonwebtoken";
-// import { ObjectId } from "mongoose";
 
 //Payload es el id del usuario
 export async function createAccessToken(payload: string | object): Promise<string | undefined> {

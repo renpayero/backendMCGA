@@ -5,7 +5,6 @@ import { Request, Response } from "express";
 import { user } from "../types/index.ts";
 import jwt from "jsonwebtoken";
 import { TOKEN_SECRET } from "../config.ts";
-// import { any } from "zod";
 
 require('events').EventEmitter.defaultMaxListeners = 15;
 
@@ -14,9 +13,7 @@ export const register = async (req: Request, res: Response) => {
 
     try{
         //Validacion por si ya existe el email al querer registrarse
-        console.log("nashei")
         const userFound = await User.findOne({email});
-        console.log(userFound)
         if (userFound) {
             return res.status(400).json(["El email ya existe"]);
         }
