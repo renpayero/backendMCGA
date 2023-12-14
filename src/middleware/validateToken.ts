@@ -1,7 +1,7 @@
 import jwt from "jsonwebtoken";
-import { TOKEN_SECRET } from "../config.ts";
+import { TOKEN_SECRET } from "../config";
 import { Request,Response,NextFunction } from "express";
-import { payload } from "../types/index.js";
+import { payload } from "../types/index";
 
 
 export const authRequired = (req: Request, res: Response, next: NextFunction) => {

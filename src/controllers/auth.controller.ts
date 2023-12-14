@@ -1,10 +1,10 @@
-import User from "../models/user.model.ts";
+import User from "../models/user.model";
 import bcrypt from "bcryptjs";
-import { createAccessToken } from "../libs/jwt.ts";
+import { createAccessToken } from "../libs/jwt";
 import { Request, Response } from "express";
-import { user } from "../types/index.ts";
+import { user } from "../types/index";
 import jwt from "jsonwebtoken";
-import { TOKEN_SECRET } from "../config.ts";
+import { TOKEN_SECRET } from "../config";
 // import { any } from "zod";
 
 require('events').EventEmitter.defaultMaxListeners = 15;
