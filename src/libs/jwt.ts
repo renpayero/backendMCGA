@@ -1,4 +1,4 @@
-import { TOKEN_SECRET } from "../config.ts";
+import { TOKEN_SECRET } from "../config";
 import jwt from "jsonwebtoken";
 // import { ObjectId } from "mongoose";
 

@@ -1,8 +1,8 @@
 import { Router } from "express";
-import { authRequired } from "../middleware/validateToken.ts";
-import  {getProducts, getProduct, createProduct, deleteProduct, updateProduct} from "../controllers/products.controller.ts";
-import { validateSchema } from "../middleware/validator.middleware.ts";
-import { createProductSchema } from "../schemas/product.schema.ts";
+import { authRequired } from "../middleware/validateToken";
+import  {getProducts, getProduct, createProduct, deleteProduct, updateProduct} from "../controllers/products.controller";
+import { validateSchema } from "../middleware/validator.middleware";
+import { createProductSchema } from "../schemas/product.schema";
 
 const router = Router();
 

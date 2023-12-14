@@ -1,8 +1,8 @@
 import { Router } from "express";
-import {register, login, crud, verifyToken} from "../controllers/auth.controller.ts";
-import { authRequired } from "../middleware/validateToken.ts";
-import { validateSchema } from "../middleware/validator.middleware.ts";
-import { registerSchema, loginSchema } from "../schemas/auth.schema.ts";
+import {register, login, crud, verifyToken} from "../controllers/auth.controller";
+import { authRequired } from "../middleware/validateToken";
+import { validateSchema } from "../middleware/validator.middleware";
+import { registerSchema, loginSchema } from "../schemas/auth.schema";
 
 const router: Router = Router();
 

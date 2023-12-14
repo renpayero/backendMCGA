@@ -1,8 +1,8 @@
 import express, { Application } from 'express';
 import morgan from 'morgan';
-import authRoutes from './routes/auth.routes.ts';
+import authRoutes from './routes/auth.routes';
 import cookieParser from "cookie-parser";
-import productsRoutes from "./routes/products.routes.ts";
+import productsRoutes from "./routes/products.routes";
 import cors from "cors";
 
 
