@@ -11,7 +11,7 @@ const app: Application = express();
 
 
 app.use(cors({
-  origin: "http://localhost:5173",  
+  origin: true,  
   credentials: true
 }));
 app.use(morgan('dev')); // muestra por consola las peticiones que se hacen al servidor
