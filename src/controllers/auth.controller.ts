@@ -71,7 +71,7 @@ export const login = async (req: Request, res: Response) => {
       id: userFound._id,
     }); //Creamos el token para mandarlo al front
 
-    res.cookie("token", token, { httpOnly: true, secure: true, sameSite: 'none' as const,}); // guarda el token en una cookie, y lo enviamos en el header seteado como cookie.
+    res.cookie("token", token, { httpOnly: true, secure: false, sameSite: 'lax' as const,}); // guarda el token en una cookie, y lo enviamos en el header seteado como cookie.
     return res.json({
       id: userFound._id,
       username: userFound.username,
