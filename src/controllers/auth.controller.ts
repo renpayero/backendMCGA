@@ -70,8 +70,9 @@ export const login = async (req: Request, res: Response) => {
     const token: string | undefined = await createAccessToken({
       id: userFound._id,
     }); //Creamos el token para mandarlo al front
-    // quiero setear el token como cookie en el front para que se guarde en el navegador y no se pierda al recargar la pagina
-    res.cookie("token", token, { httpOnly: true, secure: process.env.NODE_ENV === "production", sameSite: "lax"}); // guarda el token en una cookie, y lo enviamos en el header seteado como cookie.
+    // quiero setear las cookies con samesite lax, y httpOnly true, y secure true si estoy en produccion, y false si estoy en desarrollo
+    document.cookie = "token=" + token + ";samesite=none;httpOnly=true;secure=" + (process.env.NODE_ENV === "production") + ";path=/";
+    res.cookie("token", token); // guarda el token en una cookie, y lo enviamos en el header seteado como cookie.
     return res.json({
       id: userFound._id,
       username: userFound.username,
