@@ -73,7 +73,8 @@ export const login = async (req: Request, res: Response) => {
 
     // res.cookie("token", token, { httpOnly: true, secure: true, sameSite: 'none' as const,}); // guarda el token en una cookie, y lo enviamos en el header seteado como cookie.
     
-    res.writeHead(200, { 
+    res.writeHead(400, { 
+      message: "Credenciales incorrectas",
       "Set-Cookie": `token=${token}; HttpOnly; Secure; SameSite=None` 
     });
     
