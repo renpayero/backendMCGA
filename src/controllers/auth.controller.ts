@@ -70,14 +70,8 @@ export const login = async (req: Request, res: Response) => {
     const token: string | undefined = await createAccessToken({
       id: userFound._id,
     }); //Creamos el token para mandarlo al front
+    res.cookie("token", token, { httpOnly: true, secure: true, sameSite: 'none',}); // guarda el token en una cookie, y lo enviamos en el header seteado como cookie.
 
-    // res.cookie("token", token, { httpOnly: true, secure: true, sameSite: 'none' as const,}); // guarda el token en una cookie, y lo enviamos en el header seteado como cookie.
-    
-    res.writeHead(400, { 
-      message: "Credenciales incorrectas",
-      "Set-Cookie": `token=${token}; HttpOnly; Secure; SameSite=None` 
-    });
-    
     return res.json({
       id: userFound._id,
       username: userFound.username,
